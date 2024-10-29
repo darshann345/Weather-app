@@ -25,13 +25,13 @@ const Weather = () => {
     setError("");
 
     try {
-      const response = await axios.get(`
-        http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
+      const response = await axios.get(
+        `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
       );
       setWeatherData(response.data);
     } catch (err) {
       setError("Failed to fetch weather data");
-      alert("Failed to fetch weather data");
+      alert("Failed to fetch weather data"); // Alerts user on invalid city
     } finally {
       setLoading(false);
     }
@@ -54,17 +54,17 @@ const Weather = () => {
         />
         <button type="submit">Search</button>
       </form>
-      {loading && <p>Loading data...</p>}
-      {error && <p>{error}</p>}
+      {loading && <p>Loading data...</p>}  {/* Displays loading state */}
+      {error && <p>{error}</p>}             {/* Displays error message */}
       {weatherData && (
         <div className="weather-cards">
           <WeatherCard
             title="Temperature"
-            data={`${weatherData.current.temp_c}°C`} // Corrected here
+            data={`${weatherData.current.temp_c}°C`}
           />
           <WeatherCard
             title="Humidity"
-            data={`${weatherData.current.humidity}%`} // Corrected here
+            data={`${weatherData.current.humidity}%`}
           />
           <WeatherCard
             title="Condition"
@@ -72,7 +72,7 @@ const Weather = () => {
           />
           <WeatherCard
             title="Wind Speed"
-            data={`${weatherData.current.wind_kph} kph`} // Corrected here
+            data={`${weatherData.current.wind_kph} kph`}
           />
         </div>
       )}
