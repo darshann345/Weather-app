@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./Weather.css"; 
 
-const WeatherCard = ({ title, data }) => (
-  <div className="weather-card">
-    <h3>{title}</h3>
-    <p>{data}</p>
-  </div>
-);
+const WeatherCard = ({ title, data }) => {
+  return (
+    <div className="weather-card">
+      <h3>{title}</h3>
+      <p>{data}</p>
+    </div>
+  );
+};
 
 const Weather = () => {
   const [city, setCity] = useState("");
@@ -15,26 +17,21 @@ const Weather = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_KEY = "07214be0562e47209a7123615242709";
+  const API_KEY = "07214be0562e47209a7123615242709"; // Replace with your actual API key
 
   const fetchWeather = async () => {
     if (!city) return;
     setLoading(true);
     setError("");
-    setWeatherData(null); // Reset data on each search to prevent stale data
 
     try {
       const response = await axios.get(
-        `http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
+        `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`
       );
-      if (response.status === 200) {
-        setWeatherData(response.data);
-      } else {
-        throw new Error("Failed to fetch data");
-      }
+      setWeatherData(response.data);
     } catch (err) {
       setError("Failed to fetch weather data");
-      alert("Failed to fetch weather data"); // Displays alert on API failure
+      alert("Failed to fetch weather data");
     } finally {
       setLoading(false);
     }
@@ -57,9 +54,9 @@ const Weather = () => {
         />
         <button type="submit">Search</button>
       </form>
-      {loading && <p>Loading data...</p>} {/* Displays loading message while loading is true */}
-      {error && <p>{error}</p>} {/* Shows error message if error exists */}
-      {weatherData && !error && ( // Render only if there's data and no error
+      {loading && <p>Loading data...</p>}
+      {error && <p>{error}</p>}
+      {weatherData && (
         <div className="weather-cards">
           <WeatherCard
             title="Temperature"
